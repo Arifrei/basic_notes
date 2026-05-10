@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% if note %}
+  {% set page_title = (note.title or "Untitled") ~ " — Shared note" %}
+{% else %}
+  {% set page_title = "Shared note" %}
+{% endif %}
+
+{% block title %}{{ page_title }}{% endblock %}
+{% block description %}{{ description or "Shared note" }}{% endblock %}
+
+{% block content %}
+  {% if not note %}
+    <div class="shared-shell">
+      <div class="shared-card centered-card">
+        <div class="note-empty-icon" style="margin: 0 auto 0.75rem;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 2v6h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h1>Note not found</h1>
+        <p>This note may have been deleted or the link is incorrect.</p>
+        <a class="btn btn-primary" href="{{ url_for('app.index') }}">Back to app</a>
+      </div>
+    </div>
+  {% else %}
+    <div class="shared-shell">
+      <header class="shared-header">
+        <div class="shared-header-inner">
+          <div class="brand">
+            <div class="brand-mark">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" fill="currentColor"/><rect x="8" y="1" width="5" height="5" rx="1" fill="currentColor" opacity="0.6"/><rect x="1" y="8" width="5" height="5" rx="1" fill="currentColor" opacity="0.6"/><rect x="8" y="8" width="5" height="5" rx="1" fill="currentColor" opacity="0.35"/></svg>
+            </div>
+            <div class="brand-copy">
+              <h1>{{ note.title or "Untitled" }}</h1>
+              <p>Shared note &middot; updated {{ note.updated_at.strftime("%b %d, %Y") }}</p>
+            </div>
+          </div>
+          <a class="btn btn-outline" href="{{ url_for('app.index') }}">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M10 6H2M5 3L2 6l3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Back
+          </a>
+        </div>
+      </header>
+      <main class="shared-main">
+        <article class="shared-card md-prose">
+          {{ rendered_content | safe }}
+        </article>
+      </main>
+    </div>
+  {% endif %}
+{% endblock %}

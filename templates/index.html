@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="app-shell">
+    <aside id="left-panel" class="panel sidebar-panel">
+      <div class="panel-section brand-row">
+        <div class="brand">
+          <div class="brand-mark">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" fill="currentColor"/><rect x="8" y="1" width="5" height="5" rx="1" fill="currentColor" opacity="0.6"/><rect x="1" y="8" width="5" height="5" rx="1" fill="currentColor" opacity="0.6"/><rect x="8" y="8" width="5" height="5" rx="1" fill="currentColor" opacity="0.35"/></svg>
+          </div>
+          <div class="brand-copy">
+            <h1>Software Evals</h1>
+            <p id="note-count-label">0 notes</p>
+          </div>
+        </div>
+        <button id="left-collapse-btn" class="icon-btn" type="button" title="Collapse sidebar">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 3L5 7l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <div class="panel-section action-row">
+        <button id="new-note-btn" class="btn btn-primary" type="button">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          New
+        </button>
+        <button id="new-folder-btn" class="btn btn-secondary square-btn" type="button" title="New folder">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 4.5A1.5 1.5 0 013.5 3h2.38a1 1 0 01.78.37L7.5 4.5H10.5A1.5 1.5 0 0112 6v4.5A1.5 1.5 0 0110.5 12h-7A1.5 1.5 0 012 10.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button id="bulk-open-btn" class="btn btn-secondary square-btn" type="button" title="Bulk paste">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4.5 2H3a1 1 0 00-1 1v8a1 1 0 001 1h8a1 1 0 001-1V3a1 1 0 00-1-1H9.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><rect x="4.5" y="1" width="5" height="2.5" rx="0.75" stroke="currentColor" stroke-width="1.2"/></svg>
+        </button>
+        <button id="bulk-select-btn" class="btn btn-secondary" type="button">Select</button>
+      </div>
+
+      <div class="panel-section">
+        <label class="field search-field">
+          <span>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4" stroke="currentColor" stroke-width="1.3"/><path d="M9 9l3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          </span>
+          <input id="search-input" type="search" placeholder="Search notes...">
+        </label>
+      </div>
+
+      <div id="bulk-actions-bar" class="panel-section bulk-actions hidden">
+        <div class="bulk-actions-top">
+          <span id="bulk-selection-label" class="bulk-selection-label">0 selected</span>
+          <button id="bulk-select-all-btn" class="btn btn-ghost bulk-mini-btn" type="button">All</button>
+          <button id="bulk-clear-selection-btn" class="btn btn-ghost bulk-mini-btn" type="button">Done</button>
+        </div>
+        <div class="bulk-actions-row">
+          <button id="bulk-move-btn" class="btn btn-outline" type="button">Move</button>
+          <button id="bulk-delete-btn" class="btn btn-outline bulk-danger-btn" type="button">Delete</button>
+        </div>
+      </div>
+
+      <div id="notes-empty" class="empty-state hidden"></div>
+      <div id="notes-list" class="notes-list"></div>
+    </aside>
+
+    <button id="left-rail" class="collapsed-rail hidden" type="button" title="Open sidebar">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+
+    <main class="panel main-panel">
+      <section id="note-empty" class="note-empty hidden">
+        <div class="note-empty-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h2>No note selected</h2>
+        <p>Create a new note or pick one from the sidebar to get started.</p>
+        <div class="empty-actions">
+          <button id="empty-new-note-btn" class="btn btn-primary" type="button">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            New note
+          </button>
+          <button id="empty-bulk-btn" class="btn btn-secondary" type="button">Bulk paste</button>
+        </div>
+      </section>
+
+      <section id="note-view" class="note-pane hidden">
+        <header class="editor-header">
+          <h2 id="note-view-title" class="editor-title">Untitled</h2>
+          <div class="editor-actions">
+            <button id="share-note-btn" class="btn btn-outline" type="button">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="3" cy="6.5" r="1.5" stroke="currentColor" stroke-width="1.2"/><circle cx="10" cy="3" r="1.5" stroke="currentColor" stroke-width="1.2"/><circle cx="10" cy="10" r="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M4.3 5.8l4.4-2.1M4.3 7.2l4.4 2.1" stroke="currentColor" stroke-width="1.2"/></svg>
+              Share
+            </button>
+            <button id="edit-note-btn" class="btn btn-primary" type="button">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5l2 2L4 10H2V8z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Edit
+            </button>
+            <button id="delete-note-btn" class="icon-btn" type="button" title="Delete note">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 4h8M5.5 4V3a1 1 0 011-1h1a1 1 0 011 1v1M10 4v7a1 1 0 01-1 1H5a1 1 0 01-1-1V4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </header>
+        <div id="note-view-body" class="note-body md-prose loading-surface"></div>
+      </section>
+
+      <section id="note-edit" class="note-pane hidden">
+        <header class="editor-header editor-header-edit">
+          <div class="editor-toolbar">
+            <button class="toolbar-btn" type="button" data-wrap="**" title="Bold">B</button>
+            <button class="toolbar-btn" type="button" data-wrap="*" title="Italic"><em>I</em></button>
+            <span class="toolbar-separator"></span>
+            <button class="toolbar-btn" type="button" data-prefix="# " title="Heading 1">H1</button>
+            <button class="toolbar-btn" type="button" data-prefix="## " title="Heading 2">H2</button>
+            <button class="toolbar-btn" type="button" data-prefix="### " title="Heading 3">H3</button>
+            <span class="toolbar-separator"></span>
+            <button class="toolbar-btn" type="button" data-prefix="- " title="Bullet list">List</button>
+            <button class="toolbar-btn" type="button" data-prefix="1. " title="Numbered list">1.</button>
+            <button class="toolbar-btn" type="button" data-prefix="> " title="Quote">"</button>
+            <button class="toolbar-btn" type="button" data-wrap="`" title="Inline code">&lt;/&gt;</button>
+            <button class="toolbar-btn" type="button" data-link="1" title="Link">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M5 7l2-2M4.5 8.5L3 10a1.41 1.41 0 01-2-2l1.5-1.5M7.5 3.5L9 2a1.41 1.41 0 012 2L9.5 5.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+          <div class="editor-actions editor-actions-tight">
+            <span id="editor-status" class="editor-status">No changes</span>
+            <button id="cancel-edit-btn" class="btn btn-ghost" type="button">Cancel</button>
+            <button id="save-note-btn" class="btn btn-primary" type="button">Save</button>
+            <button id="toggle-preview-btn" class="btn btn-outline" type="button">Preview</button>
+          </div>
+        </header>
+
+        <div class="editor-tabs">
+          <button id="tab-edit-btn" class="tab-button active" type="button">Edit</button>
+          <button id="tab-preview-btn" class="tab-button" type="button">Preview</button>
+        </div>
+
+        <div id="editor-edit-pane" class="editor-pane">
+          <textarea id="editor-textarea" class="editor-textarea" spellcheck="false" placeholder="# Software Name&#10;&#10;Write your evaluation in markdown..."></textarea>
+        </div>
+        <div id="editor-preview-pane" class="editor-pane hidden">
+          <div id="editor-preview" class="note-body md-prose loading-surface"></div>
+        </div>
+      </section>
+    </main>
+
+    <aside id="right-panel" class="panel chat-panel">
+      <div class="chat-header">
+        <div class="chat-brand">
+          <div class="chat-mark">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1.5 3.5L12 6l-3.5 1.5L7 11 5.5 7.5 2 6l3.5-1.5z" fill="currentColor"/></svg>
+          </div>
+          <div>
+            <h2>Ask your notes</h2>
+            <p>AI-powered search across all notes</p>
+          </div>
+        </div>
+        <div class="chat-header-actions">
+          <button id="chat-reset-btn" class="btn btn-ghost bulk-mini-btn" type="button">New chat</button>
+          <button id="right-collapse-btn" class="icon-btn" type="button" title="Collapse AI chat">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="chat-scroll" class="chat-scroll">
+        <div id="chat-suggestions" class="chat-suggestions">
+          <p>Try asking:</p>
+          <div class="suggestion-list">
+            <button class="suggestion-btn" type="button" data-suggestion="Which tools support self-hosting?">Which tools support self-hosting?</button>
+            <button class="suggestion-btn" type="button" data-suggestion="I need a project tracker for a 5-person eng team focused on speed. Top picks?">Best project tracker for a small fast-moving eng team?</button>
+            <button class="suggestion-btn" type="button" data-suggestion="Compare pricing across the notes.">Compare pricing across the notes</button>
+          </div>
+        </div>
+        <div id="chat-messages" class="chat-messages"></div>
+      </div>
+
+      <div class="chat-input-wrap">
+        <textarea id="chat-input" class="chat-input" rows="2" placeholder="Ask about your evaluations..."></textarea>
+        <button id="chat-send-btn" class="btn btn-primary square-btn" type="button">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M12 2L2 6.5l4 1.5L8 12z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 2L6 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </aside>
+
+    <button id="right-rail" class="collapsed-rail collapsed-rail-right hidden" type="button" title="Open AI chat">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1.5 3.5L12 6l-3.5 1.5L7 11 5.5 7.5 2 6l3.5-1.5z" fill="currentColor"/></svg>
+    </button>
+  </div>
+
+  <div id="bulk-modal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal="bulk"></div>
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h2>Bulk paste notes</h2>
+          <p>
+            Paste multiple notes. Each note starts with a <code>#</code> heading (H1) which becomes the title.
+          </p>
+        </div>
+        <button id="bulk-close-btn" class="icon-btn" type="button" title="Close">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <textarea id="bulk-textarea" class="bulk-textarea" placeholder="# Linear&#10;Slick. Best for engineering teams...&#10;&#10;# Notion&#10;Flexible but slow..."></textarea>
+      <p id="bulk-preview" class="bulk-preview"></p>
+      <div class="modal-actions">
+        <button id="bulk-cancel-btn" class="btn btn-ghost" type="button">Cancel</button>
+        <button id="bulk-import-btn" class="btn btn-primary" type="button">Import</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="move-modal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal="move"></div>
+    <div class="modal-card move-modal-card">
+      <div class="modal-header">
+        <div>
+          <h2>Move selected notes</h2>
+          <p>Choose a destination folder, move the notes to Unfiled, or create a new folder.</p>
+        </div>
+        <button id="move-close-btn" class="icon-btn" type="button" title="Close">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="move-actions">
+        <button id="move-unfiled-btn" class="btn btn-outline" type="button">Move to Unfiled</button>
+        <button id="move-create-folder-btn" class="btn btn-primary" type="button">Create folder and move</button>
+      </div>
+      <div id="move-folder-list" class="move-folder-list"></div>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script id="bootstrap-data" type="application/json">{{ bootstrap | tojson }}</script>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+{% endblock %}
