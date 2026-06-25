@@ -13,9 +13,7 @@
   {% if not note %}
     <div class="shared-shell">
       <div class="centered-card">
-        <div class="note-empty-icon" style="margin: 0 auto .75rem;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 2v6h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
+        <img src="{{ url_for('static', filename='img/clearcut-mark.svg') }}" alt="Clearcut" width="56" height="56" style="margin: 0 auto .75rem; display: block; opacity: .7;">
         <h1>Note not found</h1>
         <p>This note may have been deleted or the link is incorrect.</p>
         <a class="btn btn-primary" href="{{ url_for('app.index') }}">Back to app</a>
@@ -26,7 +24,7 @@
       <header class="shared-header">
         <div class="shared-header-inner">
           <div class="brand">
-            <div class="brand-mark">C</div>
+            <img src="{{ url_for('static', filename='img/clearcut-mark.svg') }}" alt="Clearcut" width="26" height="26" class="brand-logo">
             <div class="brand-copy">
               <h1>{{ note.title or "Untitled" }}</h1>
               <p>Shared note &middot; updated {{ note.updated_at.strftime("%b %d, %Y") }}</p>
