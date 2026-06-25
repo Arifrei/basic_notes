@@ -12,8 +12,8 @@
 {% block content %}
   {% if not note %}
     <div class="shared-shell">
-      <div class="shared-card centered-card">
-        <div class="note-empty-icon" style="margin: 0 auto 0.75rem;">
+      <div class="centered-card">
+        <div class="note-empty-icon" style="margin: 0 auto .75rem;">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 2v6h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <h1>Note not found</h1>
@@ -26,9 +26,7 @@
       <header class="shared-header">
         <div class="shared-header-inner">
           <div class="brand">
-            <div class="brand-mark">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" fill="currentColor"/><rect x="8" y="1" width="5" height="5" rx="1" fill="currentColor" opacity="0.6"/><rect x="1" y="8" width="5" height="5" rx="1" fill="currentColor" opacity="0.6"/><rect x="8" y="8" width="5" height="5" rx="1" fill="currentColor" opacity="0.35"/></svg>
-            </div>
+            <div class="brand-mark">C</div>
             <div class="brand-copy">
               <h1>{{ note.title or "Untitled" }}</h1>
               <p>Shared note &middot; updated {{ note.updated_at.strftime("%b %d, %Y") }}</p>
